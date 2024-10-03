@@ -25,12 +25,15 @@ class SAM2Transforms(nn.Module):
         self.mean = [0.485, 0.456, 0.406]
         self.std = [0.229, 0.224, 0.225]
         self.to_tensor = ToTensor()
-        self.transforms = torch.jit.script(
-            nn.Sequential(
-                Resize((self.resolution, self.resolution)),
-                Normalize(self.mean, self.std),
-            )
+        transform_pipeline = nn.Sequential(
+            Resize((self.resolution, self.resolution)),
+            Normalize(self.mean, self.std),
         )
+        try:
+            self.transforms = torch.jit.script(transform_pipeline)
+        except OSError as e:
+            print(f"torch.jit.script() failed: {e} -- proceeding without JIT")
+            self.transforms = transform_pipeline
 
     def __call__(self, x):
         x = self.to_tensor(x)
