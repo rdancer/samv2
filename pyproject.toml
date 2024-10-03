@@ -5,7 +5,7 @@ build-backend = "flit_core.buildapi"
 [project]
 description = "CPU compatible fork of the official SAMv2 implementation"
 name = "samv2"
-version = "0.0.4"
+version = "0.0.5"
 authors = [{ name = "Saurav Maheshkar", email = "sauravvmaheshkar@gmail.com" }]
 readme = ".github/README.md"
 requires-python = ">=3.8"
